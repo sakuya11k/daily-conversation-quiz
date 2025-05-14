@@ -1,7 +1,7 @@
 // src/app/quiz/page.tsx
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react'; // useMemo をインポート
 import Link from 'next/link';
 
 // クイズデータの型定義
@@ -27,6 +27,17 @@ function getRandomElements<T>(arr: T[], n: number): T[] {
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, n);
 }
+
+// ★★★ 配列をシャッフルするユーティリティ関数 ★★★
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array]; // 元の配列を直接変更しないようにコピー
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // 要素を入れ替え
+  }
+  return newArray;
+}
+
 
 export default function QuizPage() {
   const [allQuizzes, setAllQuizzes] = useState<AllQuizzes | null>(null);
@@ -108,10 +119,10 @@ export default function QuizPage() {
   if (error) {
     return <div className="flex items-center justify-center min-h-screen text-red-500">エラー: {error}</div>;
   }
-  if (selectedQuestions.length === 0 && !allQuizzes) { // allQuizzesがまだ読み込まれていない場合も考慮
+  if (selectedQuestions.length === 0 && !allQuizzes) {
     return <div className="flex items-center justify-center min-h-screen">クイズデータを読み込んでいます...</div>;
   }
-  if (selectedQuestions.length === 0 && allQuizzes) { // データはあるが選出前 or 選出結果が0の場合
+  if (selectedQuestions.length === 0 && allQuizzes) {
     return <div className="flex items-center justify-center min-h-screen">クイズを準備中です...</div>;
   }
 
@@ -145,10 +156,17 @@ export default function QuizPage() {
 
   const currentQuestion = selectedQuestions[currentQuestionIndex];
 
-  // currentQuestion が undefined でないことを保証 (万が一のケース)
   if (!currentQuestion) {
       return <div className="flex items-center justify-center min-h-screen">問題の読み込みにエラーが発生しました。</div>;
   }
+
+  // ★★★ 選択肢をシャッフルする処理 (useMemoを使用) ★★★
+  const shuffledOptions = useMemo(() => {
+    if (currentQuestion && currentQuestion.options) {
+      return shuffleArray(currentQuestion.options);
+    }
+    return []; // currentQuestionやoptionsがまだない場合は空配列
+  }, [currentQuestion]); // currentQuestionオブジェクト自体が変わった時に再計算
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
@@ -157,15 +175,16 @@ export default function QuizPage() {
           <p className="text-sm text-gray-500">
             問題 {currentQuestionIndex + 1} / {selectedQuestions.length}
           </p>
-          <h2 className="text-2xl font-semibold text-gray-800 break-words"> {/* questionが長い場合があるのでh2に変更し、break-words追加 */}
+          <h2 className="text-2xl font-semibold text-gray-800 break-words">
             {currentQuestion.question}
           </h2>
         </div>
 
         <div className="space-y-3 mb-8">
-          {currentQuestion.options.map((option, index) => (
+          {/* ★★★ シャッフルされた選択肢 (shuffledOptions) を使用 ★★★ */}
+          {shuffledOptions.map((option, index) => (
             <button
-              key={index}
+              key={`${currentQuestion.id}-option-${index}`} // keyをよりユニークに (問題IDとインデックスを組み合わせる)
               onClick={() => handleAnswer(option)}
               disabled={isAnswered}
               className={`
@@ -190,7 +209,7 @@ export default function QuizPage() {
               onClick={handleNextQuestion}
               className="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
             >
-              {currentQuestionIndex < selectedQuestions.length - 1 ? '次の問題へ' : '結果画面へ'} {/* ボタンテキスト変更 */}
+              {currentQuestionIndex < selectedQuestions.length - 1 ? '次の問題へ' : '結果画面へ'}
             </button>
           </div>
         )}
