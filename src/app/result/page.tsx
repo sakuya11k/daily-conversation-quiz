@@ -1,20 +1,17 @@
 // src/app/result/page.tsx
-"use client"; // ResultContentがクライアントサイドのフックを使うため、ファイル全体をクライアントコンポーネントとするか、
-              // ResultContentのみをクライアントコンポーネントとして分離し、このファイルはサーバーコンポーネントのままにすることも可能。
-              // 今回はシンプルにファイル全体をクライアントコンポーネントとして扱います。
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useState, Suspense } from 'react'; // Suspense をインポート
+import Link from "next/link";
+import { useEffect, useState, Suspense } from "react";
 
-// searchParams を props で受け取るように変更
-interface ResultPageProps {
+// ResultContent用のprops型
+interface ResultContentProps {
   searchParams: {
-    [key: string]: string | string[] | undefined; // Next.jsが渡すsearchParamsの型
+    [key: string]: string | string[] | undefined;
   };
 }
 
-// Suspenseでラップするための実際のコンテンツを表示するコンポーネント
-function ResultContent({ searchParams }: ResultPageProps) {
+function ResultContent({ searchParams }: ResultContentProps) {
   const [score, setScore] = useState<number | null>(null);
   const [totalQuestions, setTotalQuestions] = useState<number | null>(null);
   const [percentageScore, setPercentageScore] = useState<number | null>(null);
@@ -23,7 +20,7 @@ function ResultContent({ searchParams }: ResultPageProps) {
     const scoreParam = searchParams.score;
     const totalParam = searchParams.total;
 
-    if (typeof scoreParam === 'string' && typeof totalParam === 'string') {
+    if (typeof scoreParam === "string" && typeof totalParam === "string") {
       const parsedScore = parseInt(scoreParam, 10);
       const parsedTotal = parseInt(totalParam, 10);
 
@@ -32,16 +29,14 @@ function ResultContent({ searchParams }: ResultPageProps) {
         setTotalQuestions(parsedTotal);
         setPercentageScore((parsedScore / parsedTotal) * 100);
       } else {
-        // パラメータのパースに失敗した場合
         console.error("Failed to parse score or total parameters:", { scoreParam, totalParam });
-        setScore(null); // エラー状態を示すためにnullに戻す
+        setScore(null);
         setTotalQuestions(null);
         setPercentageScore(null);
       }
     } else {
-      // scoreParam や totalParam が期待した形式でない場合
       console.warn("Score or total parameter is not a string or is missing:", searchParams);
-      setScore(null); // エラー状態を示すためにnullに戻す
+      setScore(null);
       setTotalQuestions(null);
       setPercentageScore(null);
     }
@@ -67,7 +62,7 @@ function ResultContent({ searchParams }: ResultPageProps) {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-4">
       <div className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-10 rounded-xl shadow-2xl text-center">
         <h1 className="text-5xl font-extrabold mb-6">クイズ結果</h1>
-        
+
         <div className="mb-8">
           <p className="text-2xl mb-2">あなたのスコア</p>
           <p className="text-7xl font-bold tracking-tight">
@@ -78,11 +73,12 @@ function ResultContent({ searchParams }: ResultPageProps) {
         <div className="mb-10">
           <p className="text-3xl mb-2">正解率</p>
           <p className="text-6xl font-bold text-yellow-300">
-            {percentageScore.toFixed(1)}<span className="text-3xl opacity-80">%</span>
+            {percentageScore.toFixed(1)}
+            <span className="text-3xl opacity-80">%</span>
           </p>
           <p className="text-xl mt-1">({(score * 12.5).toFixed(1)} 点 / 100点)</p>
         </div>
-        
+
         <div className="space-y-4 md:space-y-0 md:space-x-4 flex flex-col md:flex-row justify-center">
           <Link href="/quiz">
             <button className="w-full md:w-auto px-8 py-4 bg-yellow-400 text-gray-800 text-lg font-semibold rounded-lg shadow-md hover:bg-yellow-500 transition duration-300">
@@ -100,10 +96,12 @@ function ResultContent({ searchParams }: ResultPageProps) {
   );
 }
 
-
-// Pageコンポーネント: ResultPageProps を受け取る
-export default function ResultPage({ searchParams }: ResultPageProps) {
-  // SuspenseでResultContentをラップする
+// ResultPage: searchParams を受け取り Suspense で ResultContent をラップ
+export default function ResultPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   return (
     <Suspense fallback={<div className="flex items-center justify-center min-h-screen">結果を読み込んでいます... (Suspense Fallback)</div>}>
       <ResultContent searchParams={searchParams} />
