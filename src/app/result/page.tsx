@@ -1,17 +1,10 @@
+// src/app/result/page.tsx
 "use client";
 
-import Link from 'next/link';
-import { useEffect, useState, Suspense } from 'react';
+import Link from "next/link";
+import { useEffect, useState, Suspense } from "react";
 
-// ページの props 型を Next.js App Router に対応させる
-interface PageProps {
-  searchParams?: {
-    [key: string]: string | string[] | undefined;
-  };
-}
-
-// 実際の結果表示用コンポーネント
-function ResultContent({ searchParams = {} }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+function ResultContent({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [score, setScore] = useState<number | null>(null);
   const [totalQuestions, setTotalQuestions] = useState<number | null>(null);
   const [percentageScore, setPercentageScore] = useState<number | null>(null);
@@ -20,7 +13,7 @@ function ResultContent({ searchParams = {} }: { searchParams: { [key: string]: s
     const scoreParam = searchParams.score;
     const totalParam = searchParams.total;
 
-    if (typeof scoreParam === 'string' && typeof totalParam === 'string') {
+    if (typeof scoreParam === "string" && typeof totalParam === "string") {
       const parsedScore = parseInt(scoreParam, 10);
       const parsedTotal = parseInt(totalParam, 10);
 
@@ -29,13 +22,11 @@ function ResultContent({ searchParams = {} }: { searchParams: { [key: string]: s
         setTotalQuestions(parsedTotal);
         setPercentageScore((parsedScore / parsedTotal) * 100);
       } else {
-        console.error("Failed to parse score or total parameters:", { scoreParam, totalParam });
         setScore(null);
         setTotalQuestions(null);
         setPercentageScore(null);
       }
     } else {
-      console.warn("Score or total parameter is not a string or is missing:", searchParams);
       setScore(null);
       setTotalQuestions(null);
       setPercentageScore(null);
@@ -73,7 +64,8 @@ function ResultContent({ searchParams = {} }: { searchParams: { [key: string]: s
         <div className="mb-10">
           <p className="text-3xl mb-2">正解率</p>
           <p className="text-6xl font-bold text-yellow-300">
-            {percentageScore.toFixed(1)}<span className="text-3xl opacity-80">%</span>
+            {percentageScore.toFixed(1)}
+            <span className="text-3xl opacity-80">%</span>
           </p>
           <p className="text-xl mt-1">({(score * 12.5).toFixed(1)} 点 / 100点)</p>
         </div>
@@ -95,10 +87,10 @@ function ResultContent({ searchParams = {} }: { searchParams: { [key: string]: s
   );
 }
 
-// ページコンポーネント（Next.js App Router 準拠）
-export default function ResultPage({ searchParams = {} }: PageProps) {
+// ✅ 注意: `searchParams` は App Router が自動的に渡すので明示型は不要
+export default function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">結果を読み込んでいます... (Suspense Fallback)</div>}>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">結果を読み込んでいます...</div>}>
       <ResultContent searchParams={searchParams} />
     </Suspense>
   );
