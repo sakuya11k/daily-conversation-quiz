@@ -1,0 +1,203 @@
+// src/app/quiz/page.tsx
+"use client";
+
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+
+// クイズデータの型定義
+interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  answer: string;
+}
+
+interface AllQuizzes {
+  easy: QuizQuestion[];
+  medium: QuizQuestion[];
+  hard: QuizQuestion[];
+  surprising: QuizQuestion[];
+}
+
+// ユーティリティ関数: 配列からランダムにn個の要素を取得
+function getRandomElements<T>(arr: T[], n: number): T[] {
+  if (n >= arr.length) {
+    return [...arr].sort(() => 0.5 - Math.random());
+  }
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, n);
+}
+
+export default function QuizPage() {
+  const [allQuizzes, setAllQuizzes] = useState<AllQuizzes | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [selectedQuestions, setSelectedQuestions] = useState<QuizQuestion[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [quizEnded, setQuizEnded] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [isAnswered, setIsAnswered] = useState(false);
+
+  useEffect(() => {
+    async function fetchQuizzes() {
+      try {
+        const response = await fetch('/quizzes.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data: AllQuizzes = await response.json();
+        setAllQuizzes(data);
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message);
+          console.error('クイズデータの読み込みに失敗しました:', e.message);
+        } else {
+          setError('不明なエラーが発生しました');
+          console.error('クイズデータの読み込みに失敗しました (不明なエラー)');
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchQuizzes();
+  }, []);
+
+  useEffect(() => {
+    if (allQuizzes) {
+      const easy = getRandomElements(allQuizzes.easy, 2);
+      const medium = getRandomElements(allQuizzes.medium, 2);
+      const hard = getRandomElements(allQuizzes.hard, 2);
+      const surprising = getRandomElements(allQuizzes.surprising, 2);
+
+      const questions = [...easy, ...medium, ...hard, ...surprising];
+      setSelectedQuestions(questions.sort(() => 0.5 - Math.random()));
+      setCurrentQuestionIndex(0);
+      setScore(0);
+      setQuizEnded(false);
+      setSelectedAnswer(null);
+      setIsAnswered(false);
+    }
+  }, [allQuizzes]);
+
+  const handleAnswer = (option: string) => {
+    if (isAnswered) return;
+
+    setSelectedAnswer(option);
+    setIsAnswered(true);
+    const currentQuestion = selectedQuestions[currentQuestionIndex];
+    if (option === currentQuestion.answer) {
+      setScore(prevScore => prevScore + 1);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < selectedQuestions.length - 1) {
+      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+      setSelectedAnswer(null);
+      setIsAnswered(false);
+    } else {
+      setQuizEnded(true);
+    }
+  };
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">読み込み中...</div>;
+  }
+  if (error) {
+    return <div className="flex items-center justify-center min-h-screen text-red-500">エラー: {error}</div>;
+  }
+  if (selectedQuestions.length === 0 && !allQuizzes) { // allQuizzesがまだ読み込まれていない場合も考慮
+    return <div className="flex items-center justify-center min-h-screen">クイズデータを読み込んでいます...</div>;
+  }
+  if (selectedQuestions.length === 0 && allQuizzes) { // データはあるが選出前 or 選出結果が0の場合
+    return <div className="flex items-center justify-center min-h-screen">クイズを準備中です...</div>;
+  }
+
+
+  if (quizEnded) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-xl text-center w-full max-w-md">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">クイズ終了！</h1>
+          
+          <p className="text-xl text-gray-700 mb-8">
+            お疲れ様でした。結果を確認しましょう。
+          </p>
+          
+          <div className="space-y-4">
+            <Link href={`/result?score=${score}&total=${selectedQuestions.length}`}>
+              <button className="w-full px-8 py-4 bg-blue-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+                結果を見る
+              </button>
+            </Link>
+            <Link href="/">
+              <button className="w-full px-8 py-4 bg-gray-300 text-gray-700 text-lg font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300">
+                トップに戻る
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const currentQuestion = selectedQuestions[currentQuestionIndex];
+
+  // currentQuestion が undefined でないことを保証 (万が一のケース)
+  if (!currentQuestion) {
+      return <div className="flex items-center justify-center min-h-screen">問題の読み込みにエラーが発生しました。</div>;
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl">
+        <div className="mb-6">
+          <p className="text-sm text-gray-500">
+            問題 {currentQuestionIndex + 1} / {selectedQuestions.length}
+          </p>
+          <h2 className="text-2xl font-semibold text-gray-800 break-words"> {/* questionが長い場合があるのでh2に変更し、break-words追加 */}
+            {currentQuestion.question}
+          </h2>
+        </div>
+
+        <div className="space-y-3 mb-8">
+          {currentQuestion.options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleAnswer(option)}
+              disabled={isAnswered}
+              className={`
+                w-full p-4 border rounded-lg text-left text-lg transition-colors duration-200
+                ${isAnswered 
+                  ? (option === currentQuestion.answer ? 'bg-green-500 text-white border-green-500' 
+                    : (option === selectedAnswer ? 'bg-red-500 text-white border-red-500' : 'bg-gray-100 border-gray-300 text-gray-700'))
+                  : 'bg-white border-blue-500 text-blue-700 hover:bg-blue-50'
+                }
+                ${isAnswered && option !== selectedAnswer && option !== currentQuestion.answer ? 'opacity-70' : ''}
+                ${isAnswered ? 'cursor-not-allowed' : 'cursor-pointer'}
+              `}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+
+        {isAnswered && (
+          <div className="text-center">
+            <button
+              onClick={handleNextQuestion}
+              className="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
+            >
+              {currentQuestionIndex < selectedQuestions.length - 1 ? '次の問題へ' : '結果画面へ'} {/* ボタンテキスト変更 */}
+            </button>
+          </div>
+        )}
+         <div className="mt-6 text-center">
+          <p className="text-xl font-bold">現在のスコア: {score} / {selectedQuestions.length}</p>
+        </div>
+      </div>
+    </div>
+  );
+}

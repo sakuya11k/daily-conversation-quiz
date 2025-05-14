@@ -1,0 +1,250 @@
+{
+    "easy": [
+      {
+        "id": "ne1",
+        "question": "「お元気ですか？」は英語で？",
+        "options": ["How are you?", "What's your name?", "How old are you?", "Where are you from?"],
+        "answer": "How are you?"
+      },
+      {
+        "id": "ne2",
+        "question": "「元気です、ありがとう。」「How are you?」への返答として適切なものは？",
+        "options": ["I'm fine, thank you.", "I am a student.", "My name is Ken.", "See you later."],
+        "answer": "I'm fine, thank you."
+      },
+      {
+        "id": "ne3",
+        "question": "「どういたしまして」は英語で？ (Thank youへの返答)",
+        "options": ["You're welcome.", "I'm sorry.", "Yes, please.", "Good job."],
+        "answer": "You're welcome."
+      },
+      {
+        "id": "ne4",
+        "question": "レストランで「お水をください」は英語で？",
+        "options": ["Water, please.", "Coffee, please.", "Check, please.", "Menu, please."],
+        "answer": "Water, please."
+      },
+      {
+        "id": "ne5",
+        "question": "「これは何ですか？」は英語で？",
+        "options": ["What is this?", "Who is this?", "Where is this?", "When is this?"],
+        "answer": "What is this?"
+      },
+      {
+        "id": "ne6",
+        "question": "「駅はどこですか？」は英語で？",
+        "options": ["Where is the station?", "What is the station?", "Who is the station?", "When is the station?"],
+        "answer": "Where is the station?"
+      },
+      {
+        "id": "ne7",
+        "question": "「はい、どうぞ」と物を渡す時の英語は？",
+        "options": ["Here you are.", "Thank you.", "Excuse me.", "I don't know."],
+        "answer": "Here you are."
+      },
+      {
+        "id": "ne8",
+        "question": "「わかりません」は英語で？",
+        "options": ["I don't know.", "I know.", "I understand.", "I like it."],
+        "answer": "I don't know."
+      },
+      {
+        "id": "ne9",
+        "question": "「もう一度お願いします」は英語で？ (聞き返す時)",
+        "options": ["Could you say that again, please?", "Thank you again.", "Yes, I do it again.", "It's okay, next time."],
+        "answer": "Could you say that again, please?"
+      },
+      {
+        "id": "ne10",
+        "question": "「お手伝いしましょうか？」と申し出る時の英語は？",
+        "options": ["Can I help you?", "Can you help me?", "What's wrong with you?", "Are you busy now?"],
+        "answer": "Can I help you?"
+      }
+    ],
+    "medium": [
+      {
+        "id": "nm1",
+        "question": "「すみません、今何時ですか？」は英語で？",
+        "options": ["Excuse me, what time is it?", "Sorry, how many hours?", "Please tell me the clock.", "Hey, time now?"],
+        "answer": "Excuse me, what time is it?"
+      },
+      {
+        "id": "nm2",
+        "question": "約束の時間に遅れそうな時「少し遅れます」と伝える英語は？",
+        "options": ["I'm going to be a little late.", "I will not come.", "I am on time.", "Wait for me!"],
+        "answer": "I'm going to be a little late."
+      },
+      {
+        "id": "nm3",
+        "question": "「あなたの趣味は何ですか？」は英語で？",
+        "options": ["What are your hobbies?", "Do you like hobbies?", "How is your hobby?", "Tell me your hobby."],
+        "answer": "What are your hobbies?"
+      },
+      {
+        "id": "nm4",
+        "question": "お店で試着したい時「これを試着してもいいですか？」は英語で？",
+        "options": ["Can I try this on?", "Is this for try?", "I want to wear this.", "Let me try."],
+        "answer": "Can I try this on?"
+      },
+      {
+        "id": "nm5",
+        "question": "「それはいい考えですね！」と賛同する時の英語は？",
+        "options": ["That's a good idea!", "It's not good.", "I don't think so.", "Maybe later."],
+        "answer": "That's a good idea!"
+      },
+      {
+        "id": "nm6",
+        "question": "「週末はどうでしたか？」と聞く英語は？",
+        "options": ["How was your weekend?", "What did you do last Sunday?", "Is weekend good?", "Did you have a weekend?"],
+        "answer": "How was your weekend?"
+      },
+      {
+        "id": "nm7",
+        "question": "「（映画などが）楽しみです！」と期待を表す英語は？",
+        "options": ["I'm looking forward to it!", "I will see it.", "It must be fun.", "I hope it's good."],
+        "answer": "I'm looking forward to it!"
+      },
+      {
+        "id": "nm8",
+        "question": "「～の出身です」と自己紹介で言う時の英語は？ (例：東京出身)",
+        "options": ["I'm from Tokyo.", "I live Tokyo.", "My city is Tokyo.", "Tokyo is me."],
+        "answer": "I'm from Tokyo."
+      },
+      {
+        "id": "nm9",
+        "question": "レストランで注文する時「これをください」は英語で？",
+        "options": ["I'll have this.", "Give me this.", "I want this.", "This is for me."],
+        "answer": "I'll have this."
+      },
+      {
+        "id": "nm10",
+        "question": "「お先にどうぞ」と順番を譲る時の丁寧な英語は？",
+        "options": ["After you.", "Go first.", "You can go.", "My turn later."],
+        "answer": "After you."
+      }
+    ],
+    "hard": [
+      {
+        "id": "nh1",
+        "question": "相手の提案に賛成しつつ、少し懸念があることを伝える丁寧な表現は？",
+        "options": ["I agree with your point, but I have a slight concern about...", "Yes, but no.", "Good idea, however...", "That's okay, but maybe..."],
+        "answer": "I agree with your point, but I have a slight concern about..."
+      },
+      {
+        "id": "nh2",
+        "question": "「もしよろしければ、～していただけますか？」と丁寧に依頼する英語は？",
+        "options": ["Would you mind if I asked you to...?", "Can you...?", "Please do...", "I want you to..."],
+        "answer": "Would you mind if I asked you to...?"
+      },
+      {
+        "id": "nh3",
+        "question": "「それは一理ありますね」と部分的に同意する英語は？",
+        "options": ["You've got a point there.", "That's totally wrong.", "I completely disagree.", "No way."],
+        "answer": "You've got a point there."
+      },
+      {
+        "id": "nh4",
+        "question": "「率直に言って、～だと思います」と自分の意見を切り出す英語は？",
+        "options": ["To be honest, I think...", "Maybe, I feel...", "Actually, it is...", "Listen, I say..."],
+        "answer": "To be honest, I think..."
+      },
+      {
+        "id": "nh5",
+        "question": "「誤解しないでほしいのですが、～」と前置きする英語は？",
+        "options": ["Don't get me wrong, but...", "You are wrong, so...", "Listen carefully, because...", "I must tell you, but..."],
+        "answer": "Don't get me wrong, but..."
+      },
+      {
+        "id": "nh6",
+        "question": "「どちらかと言えば、～の方が好きです」と好みを述べる英語は？",
+        "options": ["I'd rather A than B.", "I like A, not B.", "A is better, B is not.", "My choice is A."],
+        "answer": "I'd rather A than B."
+      },
+      {
+        "id": "nh7",
+        "question": "「念のため確認させてください」と確認する時の丁寧な英語は？",
+        "options": ["Let me double-check, just in case.", "Check again, now.", "I want to confirm it.", "Is this correct?"],
+        "answer": "Let me double-check, just in case."
+      },
+      {
+        "id": "nh8",
+        "question": "「お手数おかけしますが、～」と依頼する際の丁寧な前置きは？",
+        "options": ["I'm sorry to trouble you, but...", "Do this for me, please.", "It's your job, so...", "I need your help with..."],
+        "answer": "I'm sorry to trouble you, but..."
+      },
+      {
+        "id": "nh9",
+        "question": "相手の提案に対して「検討してみます」と保留する英語は？",
+        "options": ["I'll think about it.", "No, I can't.", "Yes, definitely.", "Maybe, I don't know."],
+        "answer": "I'll think about it."
+      },
+      {
+        "id": "nh10",
+        "question": "「それは仕方ないですね」と諦めや受容を示す英語は？",
+        "options": ["It can't be helped.", "That's terrible.", "I don't accept it.", "Why me?"],
+        "answer": "It can't be helped."
+      }
+    ],
+    "surprising": [
+      {
+        "id": "ns1",
+        "question": "「It's raining cats and dogs.」はどういう意味？",
+        "options": ["土砂降りの雨だ", "猫と犬がたくさんいる", "とても晴れている", "静かな雨だ"],
+        "answer": "土砂降りの雨だ"
+      },
+      {
+        "id": "ns2",
+        "question": "「Break a leg!」はどんな時に使う言葉？",
+        "options": ["成功を祈る時 (頑張って！)", "足を骨折した時", "演劇が始まる前", "誰かを応援する時"],
+        "answer": "成功を祈る時 (頑張って！)"
+      },
+      {
+        "id": "ns3",
+        "question": "「a piece of cake」が意味するのは？",
+        "options": ["とても簡単なこと", "美味しいケーキ", "難しい問題", "一切れのケーキ"],
+        "answer": "とても簡単なこと"
+      },
+      {
+        "id": "ns4",
+        "question": "「under the weather」とはどんな状態？",
+        "options": ["体調が悪い", "天気が悪い", "機嫌が良い", "傘の下にいる"],
+        "answer": "体調が悪い"
+      },
+      {
+        "id": "ns5",
+        "question": "「Spill the beans」とはどういう意味？",
+        "options": ["秘密を漏らす", "豆をこぼす", "コーヒーを淹れる", "豆料理を作る"],
+        "answer": "秘密を漏らす"
+      },
+      {
+        "id": "ns6",
+        "question": "「hit the books」が意味するのは？",
+        "options": ["熱心に勉強する", "本を叩く", "図書館へ行く", "本を投げる"],
+        "answer": "熱心に勉強する"
+      },
+      {
+        "id": "ns7",
+        "question": "「once in a blue moon」とはどんな頻度？",
+        "options": ["ごくまれに", "毎晩", "満月の夜に", "よくあること"],
+        "answer": "ごくまれに"
+      },
+      {
+        "id": "ns8",
+        "question": "「bite the bullet」とはどういう意味？",
+        "options": ["困難な状況を我慢する", "銃弾を噛む", "早く食事を済ませる", "怒りを抑える"],
+        "answer": "困難な状況を我慢する"
+      },
+      {
+        "id": "ns9",
+        "question": "「costs an arm and a leg」は何が高い？",
+        "options": ["値段が非常に高い", "手足の治療費が高い", "価値が高い", "重要性が高い"],
+        "answer": "値段が非常に高い"
+      },
+      {
+        "id": "ns10",
+        "question": "くしゃみをした人にかける英語の言葉は？",
+        "options": ["Bless you!", "Excuse me!", "Gesundheit!", "Oh dear!"],
+        "answer": "Bless you!"
+      }
+    ]
+  }
